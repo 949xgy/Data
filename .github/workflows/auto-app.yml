@@ -12,7 +12,7 @@ on:
 
  
  ​jobs​: 
- ​  ​auto_a: 
+ ​  ​buil: 
  ​    ​runs-on​: ​ubuntu-latest 
  ​    ​steps​: 
  ​    - ​name​: ​Checkout ​#​同步仓库 
@@ -27,13 +27,3 @@ on:
  ​    - ​name​: ​Do auto_a ​#​开始签到 
  ​      ​run​: ​|  
  ​        python auto_a.py 
- ​    - ​name​: ​Commit ​#​上传log到仓库 
- ​      ​run​: ​| 
- ​        git config --global user.email AutoupdateRobot@email.com 
- ​        git config --global user.name AutoupdateRobot 
- ​        git add . 
- ​        git commit -m "update new sign" -a 
- ​    - ​name​: ​Push changes 
- ​      ​uses​: ​ad-m/github-push-action@master 
- ​      ​with​: 
- ​        ​github_token​: ​${{ secrets.GITHUB_TOKEN }}
