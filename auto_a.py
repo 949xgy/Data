@@ -50,6 +50,27 @@ def single_weixin_notification(msg, uids, url_shoop):
     response = requests.post(url=url, headers=headers, json=body)
     print(response.text)
 
+    
+    
+# 有货通知
+def single_weixin_notification2(msg, url_shoop):
+    token = "AT_h3GBjChS19kgeyQGAusiCPucHJEnCaAy"
+    url = "http://wxpusher.zjiecode.com/api/send/message"
+    body = {
+        "appToken": token,
+        "content": msg,
+        "contentType": 1,
+        "uids": ["UID_tDwWuoHjbfO93OOhah7y9B16qQRM",
+                 "UID_apQSVILmPb7oiOqrdujGWhBfVnzj"
+                 ],
+        "url": url_shoop  # 原文链接，可选参数
+    }
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    response = requests.post(url=url, headers=headers, json=body)
+    print(response.text)
+
 
 def status(url):
     global no_num, yes_num, err_num
@@ -78,8 +99,7 @@ def status(url):
                 message = message + '---有货了！！' + '\n链接:' + url[0] + '#' + skuId
 
                 if yes_num <= 5:
-                    single_weixin_notification(message, 'UID_tDwWuoHjbfO93OOhah7y9B16qQRM',
-                                               url[0] + '#' + skuId)
+                    single_weixin_notification2(message,url[0] + '#' + skuId)
                 print(skuId, ':', inStock)
             else:
                 no_num = no_num + 1
