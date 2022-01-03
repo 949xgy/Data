@@ -4,8 +4,6 @@
 name: Python application
 
 on:
-  push:
-    branches: [ master ]
   schedule:
     - cron: '0 0,5,10,15,20 * * *'   # +8 等于北京时间（8,13,18,23,4）点(5左右分钟延时)
 
