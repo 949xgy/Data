@@ -103,7 +103,7 @@ def status(url):
                 print(skuId, ':', inStock)
             else:
                 no_num = no_num + 1
-                if no_num % 500 == 0:
+                if no_num % 2000 == 0:
                     single_weixin_notification(
                         "没货！！ 库存状态：" + str(inStock) + '\n链接:' + url[0] + '!\n查询了' + str(no_num) + '遍',
                         'UID_tDwWuoHjbfO93OOhah7y9B16qQRM', url[0])
