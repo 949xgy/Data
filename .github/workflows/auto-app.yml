@@ -12,7 +12,7 @@ on:
  
 ​jobs​: 
  ​ buil: 
- ​   runs-on​: ​ubuntu-latest 
+    runs-on: ubuntu-latest 
  ​   steps​: 
  ​   - ​name​: ​Checkout ​#​同步仓库 
  ​     uses​: ​actions/checkout@master 
@@ -23,6 +23,6 @@ on:
  ​   - ​name​: ​Install requests ​#​安装requests 
  ​     run​: ​| 
  ​       pip install requests 
- ​   - ​name​: ​Do auto_a ​#​开始签到 
+ ​   - name​: ​Do auto_a ​#​开始签到 
  ​     run​: ​|  
  ​       python auto_a.py 
