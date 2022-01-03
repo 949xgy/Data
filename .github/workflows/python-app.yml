@@ -6,8 +6,8 @@ name: Python application
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  schedule:
+    - cron: '0 0,6,12,18 * * *'   # +8 等于北京时间（8，14，20,2）点(5左右分钟延时)
 
 jobs:
   build:
