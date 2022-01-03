@@ -23,9 +23,9 @@ def request_data(url):
         'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.25 Mobile Safari/537.36',
     }
     try:
-        print('1111')
+
         result = requests.get(url=url, headers=header,verify=False)
-        print('0000')
+ 
     except:
         err_num = err_num + 1
         print('获取链接错误')
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     no_num = 0
     list_url = [url, url2]
     i = 0
-    print('start')
+ 
     while 1:
         i = i % 2
         status(list_url[i])
