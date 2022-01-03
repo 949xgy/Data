@@ -25,5 +25,5 @@ jobs:
         pip install requests
     - name: Do auto #开始签到
       run: | 
-        auto_a.py
+        python ./auto_a.py
 
