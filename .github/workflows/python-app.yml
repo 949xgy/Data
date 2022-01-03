@@ -23,9 +23,9 @@ jobs:
     - name: Install requests #安装requests
       run: |
         pip install requests
-    - name: Do sign #开始签到
+    - name: Do auto #开始签到
       run: | 
-        python sign.py
+        python auto_a.py
     - name: Commit #上传log到仓库
       run: |
         git config --global user.email AutoupdateRobot@email.com
