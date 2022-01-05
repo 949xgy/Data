@@ -1,9 +1,10 @@
 import time
 import requests
 
-
 import warnings
+
 warnings.filterwarnings("ignore")
+
 
 def request_data(url):
     global err_num
@@ -24,8 +25,8 @@ def request_data(url):
     }
     try:
 
-        result = requests.get(url=url, headers=header,verify=False)
- 
+        result = requests.get(url=url, headers=header, verify=False)
+
     except:
         err_num = err_num + 1
         print('获取链接错误')
@@ -40,7 +41,7 @@ def single_weixin_notification(msg, uids, url_shoop):
     body = {
         "appToken": token,
         "content": msg,
-        "contentType": 1,
+        "contentType": 3,
         "uids": [uids],
         "url": url_shoop  # 原文链接，可选参数
     }
@@ -50,8 +51,7 @@ def single_weixin_notification(msg, uids, url_shoop):
     response = requests.post(url=url, headers=headers, json=body)
     print(response.text)
 
-    
-    
+
 # 有货通知
 def single_weixin_notification2(msg, url_shoop):
     token = "AT_h3GBjChS19kgeyQGAusiCPucHJEnCaAy"
@@ -59,7 +59,7 @@ def single_weixin_notification2(msg, url_shoop):
     body = {
         "appToken": token,
         "content": msg,
-        "contentType": 1,
+        "contentType": 3,
         "uids": ["UID_tDwWuoHjbfO93OOhah7y9B16qQRM",
                  "UID_apQSVILmPb7oiOqrdujGWhBfVnzj"
                  ],
@@ -74,7 +74,12 @@ def single_weixin_notification2(msg, url_shoop):
 
 def status(url):
     global no_num, yes_num, err_num
+    name = ''  # 商品名字
+    color = ''  # 商品颜色
+    link = ''  # 商品链接 url[0]：商品链接,url[1]: 商品对应的api状态链接
+    stock = ''  # 库存状态
     message = ''
+
     res = request_data(url[1])
     if res == None:
         return
@@ -82,31 +87,65 @@ def status(url):
         json_data = res.json()
         skuAvailability = json_data['skuAvailability']
         for i in range(len(skuAvailability)):
-            skuId = skuAvailability[i]['skuId']
-            inStock = skuAvailability[i]['inStock']
+            skuId = skuAvailability[i]['skuId']  # 颜色编码
+            inStock = skuAvailability[i]['inStock']  # 库存状态
+
+            if skuId == 'M40995':
+                name = 'NEVERFULL 中号手袋'
+                color = 'Beige'
+            elif skuId == 'M41177':
+                name = 'NEVERFULL 中号手袋'
+                color = 'Cherry'
+            elif skuId == 'M41178':
+                name = 'NEVERFULL 中号手袋'
+                color = 'Pivoine'
+            elif skuId == 'N41207':
+                name = '配饰包'
+                color = ''
+
+            link = url[0] + '#' + skuId  # 对应商品链接
 
             if inStock:
                 yes_num = yes_num + 1
+                stock = '有货了！！'
+                message = '''
+>
+>商品名称:**''' + name + '''**
+>
+>商品颜色:**''' + color + '''**
+>
+>库存状态:<span style="color:red;">''' + stock + '''</span>
+>
+>商品链接:[''' + link + '''](''' + link + ''')
+>
+>查询状态:已查询''' + str(no_num+yes_num) + '''遍！
+---
 
-                if skuId == 'M40995':
-                    message = 'NEVERFULL 中号手袋 颜色：Beige'
-                elif skuId == 'M41177':
-                    message = 'NEVERFULL 中号手袋 颜色：Cherry'
-                elif skuId == 'M41178':
-                    message = 'NEVERFULL 中号手袋 颜色：Pivoine'
-                elif skuId == 'N41207':
-                    message = '配饰包'
-                message = message + '---有货了！！' + '\n链接:' + url[0] + '#' + skuId
+'''
 
                 if yes_num <= 5:
-                    single_weixin_notification2(message,url[0] + '#' + skuId)
+                    single_weixin_notification2(message, link)
                 print(skuId, ':', inStock)
             else:
                 no_num = no_num + 1
-                if no_num % 2000 == 0:
-                    single_weixin_notification(
-                        "没货！！ 库存状态：" + str(inStock) + '\n链接:' + url[0] + '!\n查询了' + str(no_num) + '遍',
-                        'UID_tDwWuoHjbfO93OOhah7y9B16qQRM', url[0])
+                if no_num % 10 == 0:
+                    stock = '没货'
+                    message = '''
+>
+>商品名称:**''' + name + '''**
+>
+>商品颜色:**''' + color + '''**
+>
+>库存状态:<span style="color:red;">''' + stock + '''</span>
+>
+>商品链接:[''' + link + '''](''' + link + ''')
+>
+>查询状态:已查询''' + str(no_num) + '''遍！
+---
+
+'''
+
+                    single_weixin_notification(message, "UID_tDwWuoHjbfO93OOhah7y9B16qQRM", link)
         print(skuAvailability)
     else:
         err_num = err_num + 1
@@ -125,12 +164,12 @@ if __name__ == '__main__':
     no_num = 0
     list_url = [url, url2]
     i = 0
- 
+    print('start')
     while 1:
         i = i % 2
         status(list_url[i])
 
-        if err_num % 10 == 0 & err_num !=0:
+        if err_num % 10 == 0 & err_num != 0:
             single_weixin_notification("错误了:" + str(err_num) + '次', 'UID_tDwWuoHjbfO93OOhah7y9B16qQRM', list_url[i][0])
 
         i = i + 1
