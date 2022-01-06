@@ -123,7 +123,7 @@ def status(url):
 
 '''
 
-                if yes_num <= 5:
+                if yes_num <= 2:
                     single_weixin_notification2(message, link)
                 print(skuId, ':', inStock)
             else:
