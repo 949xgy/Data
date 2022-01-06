@@ -100,7 +100,10 @@ def status(url):
                 name = 'NEVERFULL 中号手袋'
                 color = 'Pivoine'
             elif skuId == 'N41207':
-                name = '配饰包'
+                name = '配饰包N41207'
+                color = '白'
+            elif skuId == 'M40712':
+                name = '配饰包M40712'
                 color = ''
 
             link = url[0] + '#' + skuId  # 对应商品链接
