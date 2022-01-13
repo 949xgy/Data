@@ -131,7 +131,7 @@ def status(url):
                 print(skuId, ':', inStock)
             else:
                 no_num = no_num + 1
-                if no_num % 2001 == 0:
+                if no_num % 6001 == 0:
                     stock = '没货'
                     message = '''
 >
